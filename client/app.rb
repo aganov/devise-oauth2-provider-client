@@ -23,7 +23,7 @@ class Application < Sinatra::Base
   end
   
   get '/oauth/callback' do
-    # TODO: Save access_token for future usage
+    # TODO: Save access_token for future usage (15 min lifetime)
     access_token = client.auth_code.get_token params[:code], :redirect_uri => oauth_callback_url
     access_token.get('/me').body
   end

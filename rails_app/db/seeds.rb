@@ -12,3 +12,9 @@ Client.create(
   :identifier => "120094574673767",
   :secret => "b54dc82476af2814e620b86776c42c0e"
 )
+
+User.create(
+  :email => "alex@fuckingawesome.com",
+  :password => "dragons",
+  :name => "Alex"
+)
