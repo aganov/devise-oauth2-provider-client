@@ -1,4 +1,7 @@
-h1. Install provider (rails app)
+h1. devise-oauth2-provider-client
+Current OAuth2 Specification Draft: http://tools.ietf.org/html/draft-ietf-oauth-v2-15
+
+h2. Install provider (rails app)
 
 bc. bundle install
 bundle exec rake db:create
@@ -7,7 +10,7 @@ bundle exec rake db:seed
 
 bc. rails s
 
-h1. Install client (sinatra app)
+h2. Install client (sinatra app)
 
 bc. bundle install
-be shotgun
+bundle exec shotgun
