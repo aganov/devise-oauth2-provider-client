@@ -28,7 +28,11 @@ class Application < Sinatra::Base
   # Request Access Token and Rerform API Call
   # TODO: Save access_token for future usage (15 min lifetime)
   get '/oauth/callback' do
-    begin
+    if params[:error] # handle access_denied
+      halt params[:error_description]
+    end
+    
+    begin # code is valid 1 min
       access_token = client.auth_code.get_token params[:code], :redirect_uri => OAUTH_CALLBACK_URL
       access_token.get('/me').body
     rescue OAuth2::Error => e
