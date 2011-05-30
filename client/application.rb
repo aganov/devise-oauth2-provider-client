@@ -10,7 +10,6 @@ class Application < Sinatra::Base
   def client
     @client ||= OAuth2::Client.new '120094574673767', 'b54dc82476af2814e620b86776c42c0e', {
       :site => OAUTH_PROVIDER_URL,
-      :access_token_method => :post,
       :authorize_url => '/oauth2/authorize',
       :token_url     => '/oauth2/token',
       :adapter => :NetHttp,
