@@ -1,0 +1,5 @@
+source :rubygems
+
+gem 'sinatra'
+gem 'shotgun'
+gem 'oauth2', :git => "https://github.com/intridea/oauth2.git"
