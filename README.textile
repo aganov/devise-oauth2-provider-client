@@ -10,4 +10,4 @@ bc. rails s
 h1. Install client (sinatra app)
 
 bc. bundle install
-shotgun
+be shotgun

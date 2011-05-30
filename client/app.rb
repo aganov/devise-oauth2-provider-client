@@ -17,23 +17,30 @@ class Application < Sinatra::Base
     }
   end
   
+  # Authorization Code Grant Type
+  # Request Authorization Code
+  # http://tools.ietf.org/html/draft-ietf-oauth-v2-15#section-4.1
   get '/oauth/start' do
     redirect client.auth_code.authorize_url
   end
   
-  get '/oauth/password' do
+  # Authorization Code Grant Type
+  # Request Access Token and Rerform API Call
+  # TODO: Save access_token for future usage (15 min lifetime)
+  get '/oauth/callback' do
     begin
-      access_token = client.password.get_token "alex@fuckingawesome.com", "dragons"
+      access_token = client.auth_code.get_token params[:code], :redirect_uri => OAUTH_CALLBACK_URL
       access_token.get('/me').body
     rescue OAuth2::Error => e
       e.description
     end
   end
   
-  get '/oauth/callback' do
+  # Resource Owner Password Credentials Grant Type
+  # http://tools.ietf.org/html/draft-ietf-oauth-v2-15#section-4.3
+  get '/oauth/password' do
     begin
-      # TODO: Save access_token for future usage (15 min lifetime)
-      access_token = client.auth_code.get_token params[:code], :redirect_uri => OAUTH_CALLBACK_URL
+      access_token = client.password.get_token "alex@fuckingawesome.com", "dragons"
       access_token.get('/me').body
     rescue OAuth2::Error => e
       e.description
