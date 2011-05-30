@@ -4,9 +4,12 @@ require 'oauth2'
 class Application < Sinatra::Base
   enable :sessions
   
+  OAUTH_PROVIDER_URL = 'http://localhost:3000'
+  OAUTH_CALLBACK_URL = 'http://localhost:9393/oauth/callback'
+  
   def client
     @client ||= OAuth2::Client.new '120094574673767', 'b54dc82476af2814e620b86776c42c0e', {
-      :site => 'http://localhost:3000',
+      :site => OAUTH_PROVIDER_URL,
       :access_token_method => :post,
       :authorize_url => '/oauth2/authorize',
       :token_url     => '/oauth2/token',
@@ -14,17 +17,26 @@ class Application < Sinatra::Base
     }
   end
   
-  def oauth_callback_url
-    'http://localhost:9393/oauth/callback'
-  end
-  
   get '/oauth/start' do
     redirect client.auth_code.authorize_url
   end
   
+  get '/oauth/password' do
+    begin
+      access_token = client.password.get_token "alex@fuckingawesome.com", "dragons"
+      access_token.get('/me').body
+    rescue OAuth2::Error => e
+      e.description
+    end
+  end
+  
   get '/oauth/callback' do
-    # TODO: Save access_token for future usage (15 min lifetime)
-    access_token = client.auth_code.get_token params[:code], :redirect_uri => oauth_callback_url
-    access_token.get('/me').body
+    begin
+      # TODO: Save access_token for future usage (15 min lifetime)
+      access_token = client.auth_code.get_token params[:code], :redirect_uri => OAUTH_CALLBACK_URL
+      access_token.get('/me').body
+    rescue OAuth2::Error => e
+      e.description
+    end
   end
 end
