@@ -9,6 +9,21 @@ bundle exec rake db:create
 bundle exec rake db:migrate
 bundle exec rake db:seed
 
+bc. # seeds.rb
+Client.create(
+  :name => "Sinatra Client",
+  :redirect_uri => "http://localhost:9393/oauth/callback",
+  :website => "http://localhost:9393/",
+  :identifier => "120094574673767",
+  :secret => "b54dc82476af2814e620b86776c42c0e"
+)
+ 
+User.create(
+  :email => "alex@fuckingawesome.com",
+  :password => "dragons",
+  :name => "Alex"
+)
+
 bc. rails s
 
 h2. Install client (sinatra app)
